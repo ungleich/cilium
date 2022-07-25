@@ -87,15 +87,14 @@ func (lbmap *LBBPFMap) upsertServiceProto(p *datapathTypes.UpsertServiceParams, 
 		backends = p.PreferredBackends
 	}
 
-	if p.UseMaglev && len(backends) != 0 {
-		if err := lbmap.UpsertMaglevLookupTable(p.ID, backends, ipv6); err != nil {
-			return err
-		}
-	}
-
 	if backendsOk {
-		backendIDs := p.GetOrderedBackends()
+		if p.UseMaglev && len(backends) != 0 {
+			if err := lbmap.UpsertMaglevLookupTable(p.ID, backends, ipv6); err != nil {
+				return err
+			}
+		}
 
+		backendIDs := p.GetOrderedBackends()
 		for _, backendID := range backendIDs {
 			if backendID == 0 {
 				return fmt.Errorf("Invalid backend ID 0")
