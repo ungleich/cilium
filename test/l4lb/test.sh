@@ -11,6 +11,8 @@ HELM_CHART_DIR=${3:-/vagrant/install/kubernetes/cilium}
 #  SETUP  #
 ###########
 
+echo "foo"
+
 # bpf_xdp_veth_host is a dummy XDP program which is going to be attached to LB
 # node's veth pair end in the host netns. When bpf_xdp, which is attached in
 # the container netns, forwards a LB request with XDP_TX, the request needs to
