@@ -80,6 +80,10 @@ jobs:
     outputs:
       tested: ${{ steps.tested-tree.outputs.src }}
     steps:
+      - name: Foobar
+        run: |
+          uname -a
+          cat /proc/self/cgroup
       # Because we run on issue comments, we need to checkout the code for
       # paths-filter to work.
       - name: Checkout code
@@ -94,8 +98,6 @@ jobs:
           curl ${{ github.event.issue.pull_request.url }} > pr.json
           echo "::set-output name=base::$(jq -r '.base.sha' pr.json)"
           echo "::set-output name=head::$(jq -r '.head.sha' pr.json)"
-          uname -a
-          cat /proc/self/cgroup
       - name: Check code changes
         if: ${{ github.event.issue.pull_request }}
         uses: dorny/paths-filter@b2feaf19c27470162a626bd6fa8438ae5b263721
